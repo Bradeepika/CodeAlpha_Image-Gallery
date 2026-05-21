@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Modern Image Gallery</title>
+
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body{
+      background:#0f172a;
+      color:white;
+      min-height:100vh;
+      padding:30px;
+    }
+
+    .gallery-title{
+      text-align:center;
+      margin-bottom:30px;
+    }
+
+    .gallery-title h1{
+      font-size:40px;
+      margin-bottom:10px;
+      letter-spacing:1px;
+    }
+
+    .gallery-title p{
+      color:#cbd5e1;
+    }
+
+    /* FILTER BUTTONS */
+
+    .filter-buttons{
+      display:flex;
+      justify-content:center;
+      flex-wrap:wrap;
+      gap:12px;
+      margin-bottom:35px;
+    }
+
+    .filter-btn{
+      padding:10px 22px;
+      border:none;
+      border-radius:30px;
+      cursor:pointer;
+      background:#1e293b;
+      color:white;
+      transition:0.3s ease;
+      font-size:15px;
+    }
+
+    .filter-btn:hover,
+    .filter-btn.active{
+      background:#38bdf8;
+      transform:translateY(-2px);
+    }
+
+    /* GALLERY GRID */
+
+    .gallery{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+      gap:20px;
+    }
+
+    .gallery-item{
+      position:relative;
+      overflow:hidden;
+      border-radius:18px;
+      cursor:pointer;
+      transition:0.4s ease;
+    }
+
+    .gallery-item img{
+      width:100%;
+      height:280px;
+      object-fit:cover;
+      display:block;
+      transition:0.5s ease;
+    }
+
+    .gallery-item:hover img{
+      transform:scale(1.08);
+      filter:brightness(70%);
+    }
+
+    .overlay{
+      position:absolute;
+      bottom:0;
+      left:0;
+      width:100%;
+      padding:20px;
+      background:linear-gradient(transparent, rgba(0,0,0,0.8));
+      transform:translateY(100%);
+      transition:0.4s ease;
+    }
+
+    .gallery-item:hover .overlay{
+      transform:translateY(0);
+    }
+
+    .overlay h3{
+      margin-bottom:5px;
+    }
+
+    .overlay p{
+      font-size:14px;
+      color:#ddd;
+    }
+
+    /* LIGHTBOX */
+
+    .lightbox{
+      position:fixed;
+      top:0;
+      left:0;
+      width:100%;
+      height:100%;
+      background:rgba(0,0,0,0.9);
+      display:none;
+      justify-content:center;
+      align-items:center;
+      z-index:1000;
+      padding:20px;
+    }
+
+    .lightbox img{
+      max-width:85%;
+      max-height:80vh;
+      border-radius:15px;
+      animation:zoom 0.4s ease;
+    }
+
+    @keyframes zoom{
+      from{
+        transform:scale(0.7);
+        opacity:0;
+      }
+      to{
+        transform:scale(1);
+        opacity:1;
+      }
+    }
+
+    .close,
+    .prev,
+    .next{
+      position:absolute;
+      color:white;
+      font-size:35px;
+      cursor:pointer;
+      user-select:none;
+      transition:0.3s;
+    }
+
+    .close{
+      top:25px;
+      right:40px;
+      font-size:45px;
+    }
+
+    .prev{
+      left:40px;
+      top:50%;
+      transform:translateY(-50%);
+    }
+
+    .next{
+      right:40px;
+      top:50%;
+      transform:translateY(-50%);
+    }
+
+    .prev:hover,
+    .next:hover,
+    .close:hover{
+      color:#38bdf8;
+    }
+
+    /* RESPONSIVE */
+
+    @media(max-width:768px){
+
+      .gallery-title h1{
+        font-size:30px;
+      }
+
+      .gallery-item img{
+        height:220px;
+      }
+
+      .prev,
+      .next{
+        font-size:28px;
+      }
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="gallery-title">
+    <h1>Modern Image Gallery</h1>
+    
+  </div>
+
+  <!-- FILTER BUTTONS -->
+
+  <div class="filter-buttons">
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="nature">Nature</button>
+    <button class="filter-btn" data-filter="city">City</button>
+    <button class="filter-btn" data-filter="animals">Animals</button>
+  </div>
+
+  <!-- GALLERY -->
+
+  <div class="gallery">
+
+    <div class="gallery-item nature">
+      <img src="https://picsum.photos/id/1015/600/400" alt="">
+      <div class="overlay">
+        <h3>Nature View</h3>
+        <p>Beautiful mountain landscape</p>
+      </div>
+    </div>
+
+    <div class="gallery-item city">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/5/5f/City_Lights_%28152190055%29.jpeg?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=original" alt="">
+      <div class="overlay">
+        <h3>City Lights</h3>
+        <p>Modern urban photography</p>
+      </div>
+    </div>
+
+    <div class="gallery-item animals">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSE7qjXvzX0T--7cCogC6yAB8YCjjlbP2ROow&s" alt="">
+      <div class="overlay">
+        <h3>Wild Animal</h3>
+        <p>Creative wildlife capture</p>
+      </div>
+    </div>
+
+    <div class="gallery-item nature">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNFbPnraZxme2bIxu6D099w5lJ3p86n6fqww&s" alt="">
+      <div class="overlay">
+        <h3>Forest</h3>
+        <p>Green natural environment</p>
+      </div>
+    </div>
+
+    <div class="gallery-item city">
+      <img src="https://gohighbrow.com/wp-content/uploads/2015/11/10.4-Heydar-Aliyev-Cultural-Centre-in-Baku-Azerbaijan-design-Zaha-Hadid.jpg" alt="">
+      <div class="overlay">
+        <h3>Architecture</h3>
+        <p>Creative building design</p>
+      </div>
+    </div>
+
+    <div class="gallery-item animals">
+      <img src="https://www.birdsandblooms.com/wp-content/uploads/2025/10/274894232_1_vicki_packer_BNB_BYPC_2021.jpg" alt="">
+      <div class="overlay">
+        <h3>Bird Shot</h3>
+        <p>Natural bird photography</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- LIGHTBOX -->
+
+  <div class="lightbox">
+    <span class="close">&times;</span>
+    <span class="prev">&#10094;</span>
+    <img id="lightbox-img" src="">
+    <span class="next">&#10095;</span>
+  </div>
+
+  <script>
+
+    // LIGHTBOX FUNCTION
+
+    const galleryImages = document.querySelectorAll(".gallery-item img");
+    const lightbox = document.querySelector(".lightbox");
+    const lightboxImg = document.getElementById("lightbox-img");
+    const closeBtn = document.querySelector(".close");
+    const nextBtn = document.querySelector(".next");
+    const prevBtn = document.querySelector(".prev");
+
+    let currentIndex = 0;
+
+    function showImage(index){
+      lightboxImg.src = galleryImages[index].src;
+    }
+
+    galleryImages.forEach((img, index) => {
+      img.addEventListener("click", () => {
+        currentIndex = index;
+        showImage(currentIndex);
+        lightbox.style.display = "flex";
+      });
+    });
+
+    closeBtn.addEventListener("click", () => {
+      lightbox.style.display = "none";
+    });
+
+    nextBtn.addEventListener("click", () => {
+      currentIndex = (currentIndex + 1) % galleryImages.length;
+      showImage(currentIndex);
+    });
+
+    prevBtn.addEventListener("click", () => {
+      currentIndex = (currentIndex - 1 + galleryImages.length) % galleryImages.length;
+      showImage(currentIndex);
+    });
+
+    // FILTER FUNCTION
+
+    const filterButtons = document.querySelectorAll(".filter-btn");
+    const galleryItems = document.querySelectorAll(".gallery-item");
+
+    filterButtons.forEach(button => {
+
+      button.addEventListener("click", () => {
+
+        document.querySelector(".filter-btn.active")
+        .classList.remove("active");
+
+        button.classList.add("active");
+
+        const filter = button.getAttribute("data-filter");
+
+        galleryItems.forEach(item => {
+
+          if(filter === "all" || item.classList.contains(filter)){
+            item.style.display = "block";
+          }
+          else{
+            item.style.display = "none";
+          }
+
+        });
+
+      });
+
+    });
+
+  </script>
+
+</body>
+</html>
